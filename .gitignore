@@ -1,0 +1,8 @@
+syntax: glob
+.cache
+.idea
+.tox
+build
+dist
+*.egg-info
+*.pyc

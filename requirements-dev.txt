@@ -1,0 +1,4 @@
+-e .
+pytest
+bumpversion
+CherryPy==3.8
