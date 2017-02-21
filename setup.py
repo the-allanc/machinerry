@@ -2,7 +2,7 @@ import setuptools
 
 setup_params = dict(
     name='machinerry',
-    version='0.1',
+    version='0.1.1',
     author="Allan Crooks",
     author_email="allan.crooks@sixtyten.org",
     url="https://github.com/the-allanc/machinerry",
