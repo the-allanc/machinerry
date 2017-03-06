@@ -160,16 +160,6 @@ class _BoneMachine(object):
         self.machine_event_flag = threading.Event()
         self.machine_run_history = []
 
-    def subscribe(self):
-        e = cherrypy.engine
-        e.subscribe('start', self.start)
-        e.subscribe('stop', self.stop)
-
-    def unsubscribe(self):
-        e = cherrypy.engine
-        e.unsubscribe('start', self.start)
-        e.unsubscribe('stop', self.stop)
-
     def start(self):
         """Start processing in a new Thread."""
         if self.machine_thread is None:
@@ -186,45 +176,6 @@ class _BoneMachine(object):
 
     def now(self):
         return _utcnow()
-
-    def override_signal_handler(self):
-        """Integrates with CherryPy's signal handling mechanism so that
-        it will only shut down the web service once the main thread
-        itself has terminated.
-
-        Returns true if it was modified successfully.
-        """
-        try:
-            handler = cherrypy.engine.signal_handler
-        except AttributeError:
-            return False
-
-        old_sigterm_handler = handler.handlers['SIGTERM']
-
-        def delayed_stop():
-            our_thread = self.machine_thread
-            self.stop()
-
-            # Just in case we're triggered more than once, we protect
-            # against the possibility that we receive the signal more
-            # than once.
-            if our_thread:
-                cherrypy.log(
-                    'Waiting for thread "%s" to terminate before shutting '
-                    'down.' % our_thread.name
-                )
-                our_thread.join()
-                cherrypy.log('Thread "%s" terminated.' % our_thread.name)
-
-                # We don't want multiple signals to cause this service
-                # to halt. We trust that after the main thread has
-                # finished, we will pass on the signal. We won't allow
-                # any other signals to make their way through.
-                old_sigterm_handler()
-
-        handler.handlers['SIGTERM'] = delayed_stop
-        handler.subscribe()
-        return True
 
     def run(self):
         """Continuously run self.execute(). Errors are trapped and logged."""
@@ -429,26 +380,6 @@ class _BoneMachine(object):
         run.time_next = self.run_time_next
         self.on_machine_run_complete()
         self.machine_run = None
-        return res
-
-    def status(self):
-        '''Returns a dictionary describing the current state of the
-        machine. Intended to be called from any thread. Subclasses are
-        encouraged to override the definition to include additional data.'''
-        res = dict(
-            state=self.machine_state,
-            times=dict(
-                start=self.run_time_start,
-                next=self.run_time_next,
-            )
-        )
-        if self.run_time_end is not None:
-            res['times']['end'] = self.run_time_end
-
-        if self.machine_up_since is not None:
-            res['uptime'] = (self.now() - self.machine_up_since).seconds
-
-        res['active'] = self.machine_active
         return res
 
     #
@@ -856,3 +787,72 @@ class Machine(_BoneMachine):
     def notify_status_via_email(self, message=None):
         self.pause_alert_last = self.now()
         self.pause_alert_count += 1
+
+    def subscribe(self):
+        e = cherrypy.engine
+        e.subscribe('start', self.start)
+        e.subscribe('stop', self.stop)
+
+    def unsubscribe(self):
+        e = cherrypy.engine
+        e.unsubscribe('start', self.start)
+        e.unsubscribe('stop', self.stop)
+
+    def override_signal_handler(self):
+        """Integrates with CherryPy's signal handling mechanism so that
+        it will only shut down the web service once the main thread
+        itself has terminated.
+
+        Returns true if it was modified successfully.
+        """
+        try:
+            handler = cherrypy.engine.signal_handler
+        except AttributeError:
+            return False
+
+        old_sigterm_handler = handler.handlers['SIGTERM']
+
+        def delayed_stop():
+            our_thread = self.machine_thread
+            self.stop()
+
+            # Just in case we're triggered more than once, we protect
+            # against the possibility that we receive the signal more
+            # than once.
+            if our_thread:
+                cherrypy.log(
+                    'Waiting for thread "%s" to terminate before shutting '
+                    'down.' % our_thread.name
+                )
+                our_thread.join()
+                cherrypy.log('Thread "%s" terminated.' % our_thread.name)
+
+                # We don't want multiple signals to cause this service
+                # to halt. We trust that after the main thread has
+                # finished, we will pass on the signal. We won't allow
+                # any other signals to make their way through.
+                old_sigterm_handler()
+
+        handler.handlers['SIGTERM'] = delayed_stop
+        handler.subscribe()
+        return True
+
+    def status(self):
+        '''Returns a dictionary describing the current state of the
+        machine. Intended to be called from any thread. Subclasses are
+        encouraged to override the definition to include additional data.'''
+        res = dict(
+            state=self.machine_state,
+            times=dict(
+                start=self.run_time_start,
+                next=self.run_time_next,
+            )
+        )
+        if self.run_time_end is not None:
+            res['times']['end'] = self.run_time_end
+
+        if self.machine_up_since is not None:
+            res['uptime'] = (self.now() - self.machine_up_since).seconds
+
+        res['active'] = self.machine_active
+        return res
