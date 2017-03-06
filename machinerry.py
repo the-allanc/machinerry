@@ -320,18 +320,7 @@ class _BoneMachine(object):
         # Invalidate wait_for_this_time if it was set.
         self.wait_for_this_one_time = None
 
-    def run_once(self):
-        """Run self.execute() once. Errors are trapped.
-
-        This is the equivalent of performing a single run immediately in
-        the context of the machine (with regard to all the prep work which
-        takes place around it). You should not execute this in a thread
-        separate to the machine thread (unless that thread has ceased
-        execution)."""
-        self.run_time_start = self.now()
-        self.run_time_end = None
-        self.run_time_next = None
-
+    def __create_machine_run(self):
         # Prepare the run object.
         self.machine_run = run = Run()
         run.time_start = self.run_time_start
@@ -344,6 +333,22 @@ class _BoneMachine(object):
             if self.run_history_limit:
                 self.machine_run_history = self.machine_run_history[
                     -self.run_history_limit:]
+
+        return run
+
+    def run_once(self):
+        """Run self.execute() once. Errors are trapped.
+
+        This is the equivalent of performing a single run immediately in
+        the context of the machine (with regard to all the prep work which
+        takes place around it). You should not execute this in a thread
+        separate to the machine thread (unless that thread has ceased
+        execution)."""
+        self.run_time_start = self.now()
+        self.run_time_end = None
+        self.run_time_next = None
+
+        run = self.__create_machine_run()
 
         res = None
 
