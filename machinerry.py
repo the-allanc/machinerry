@@ -34,7 +34,7 @@ class Run(dict):
             raise AttributeError(attr)
 
 
-class _BoneMachine(object):
+class BoneMachine(object):
 
     """Internal subclass which provides the bulk of the machine framework.
 
@@ -532,7 +532,7 @@ class _BoneMachine(object):
 # We build the extensions related to pausing into this subclass.
 #
 # noinspection PyAbstractClass
-class Machine(_BoneMachine):
+class Machine(BoneMachine):
 
     """A CherryPy-integrated task which runs continuously in its own thread.
 
