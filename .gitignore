@@ -6,3 +6,4 @@ build
 dist
 *.egg-info
 *.pyc
+docs/_build
