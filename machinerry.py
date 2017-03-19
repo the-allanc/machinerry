@@ -49,11 +49,6 @@ class BoneMachine(object):
     FAILED = 'FAILED'
 
     # How long to wait for before executing the next run if an error
-    # occurs. This is the default value, and is used if
-    # wait_run_frequency is not set.
-    wait_on_error_default = 5
-
-    # How long to wait for before executing the next run if an error
     # occurs. If set, then this is used regardless of whether
     # wait_run_frequency is set.
     wait_on_error = None
@@ -302,7 +297,6 @@ class BoneMachine(object):
                 (self.wait_for_this_one_time, True),
                 (self.wait_on_error, True),
                 (self.wait_run_frequency, False),
-                (self.wait_on_error_default, True),
             ]
         else:
             times = [
