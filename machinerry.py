@@ -233,6 +233,11 @@ class BoneMachine(object):
                 self.machine_state = self.RUNNING
                 self.run_once()
 
+            # We trigger the pause mechanism (without changing the
+            # state) to allow the machine to clear up.
+            self.paused = True
+            self._become_paused(True, set_state=False)
+
             # We may require something to make the machine to finally
             # stop - this is where subclasses can define what that is.
             self.on_machine_stopping()
@@ -394,13 +399,14 @@ class BoneMachine(object):
     # Internal method which actually puts the machine in a paused or
     # resumed state. Not for external use, and subclasses should be
     # careful when they use this - it's preferred if they didn't at all!
-    def _become_paused(self, paused):
+    def _become_paused(self, paused, set_state=True):
         if self.machine_state != self.PAUSED and paused:
             assert self.paused, (
                 'cannot set machine into paused state without pause flag '
                 'also being set'
             )
-            self.machine_state = self.PAUSED
+            if set_state:
+                self.machine_state = self.PAUSED
             self.pause_time = self.now()
             self.on_machine_pause()
         elif self.machine_state == self.PAUSED and not paused:
@@ -408,7 +414,8 @@ class BoneMachine(object):
                 'cannot set machine into resumed state while pause flag '
                 'is still set'
             )
-            self.machine_state = self.RUNNING
+            if set_state:
+                self.machine_state = self.RUNNING
             self.pause_time = None
 
             # This might be a property which is automatically calculated,
