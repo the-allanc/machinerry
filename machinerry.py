@@ -364,7 +364,6 @@ class BoneMachine(object):
             finally:
                 self.run_time_end = run.time_end = self.now()
                 paused_by_execute = run.pop('_paused_by_execute')
-                self.on_machine_postexecute()
         except (KeyboardInterrupt, SystemExit):
             cherrypy.log("<Ctrl-C> hit: shutting down app engine", "ENGINE")
             cherrypy.server.stop()
@@ -517,11 +516,6 @@ class BoneMachine(object):
         as it can get.'''
         pass
 
-    def on_machine_postexecute(self):
-        '''Hook to allow subclasses to do something after execute has
-        finished (regardless of whether it completed successfully or
-        not. Does nothing by default.'''
-        pass
 
     def on_machine_pause_due_to_error(self, error):
         """Hook to allow subclasses to react on the event that the
