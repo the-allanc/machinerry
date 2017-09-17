@@ -1,3 +1,5 @@
+formats:
+  - none
 python:
   version: 3
   extra_requirements:

@@ -10,10 +10,15 @@ install:
 - pip install coveralls pytest-cov
 script:
 - python setup.py checkdocs
-- py.test --cov SKELETON/
+- py.test --cov SKELETON   # SKELETON: For single module only.
+- py.test --cov SKELETON/  # SKELETON: For multi-module only.
 - sphinx-build -W docs/ build/docs/
+- pylint --disable=W SKELETON.py  # SKELETON: For single module only.
+- pylint --disable=W SKELETON/    # SKELETON: For multi-module only.
 after_script:
 - flake8
+- pylint SKELETON.py  # SKELETON: For single module only.
+- pylint SKELETON/    # SKELETON: For multi-module only.
 branches:
   except:
   - skeleton

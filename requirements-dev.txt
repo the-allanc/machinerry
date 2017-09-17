@@ -1,5 +1,7 @@
 -e .[docs]
 -e .[testing]
+bumpversion
 tox>=2.4
 flake8
 radon
+pylint

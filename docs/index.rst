@@ -24,20 +24,16 @@ API
 ..
 
 .. toctree::
-    :maxdepth: 1
+   :maxdepth: 1
 
-.. first_document_here - just uncomment
-.. second_document_here - just uncomment
+.. api/main - just uncomment
 
 ..
 .. Otherwise, if it's a simple module and you want to embed it inline,
-.. then update the name of the module here and use that instead.
+.. then uncomment this block and modify the file.
 ..
 
-.. automodule:: SKELETON
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. include:: api/main.rst
 
 
 Indices and tables

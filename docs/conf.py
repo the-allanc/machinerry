@@ -21,6 +21,9 @@ master_doc = 'index'
 autodoc_member_order = 'bysource'
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 
+# Stops module name being prefixed to API documentation.
+add_module_names = False
+
 # This allows the conf_as_extension module to be imported.
 sys.path.append(os.path.dirname(__file__))
 
