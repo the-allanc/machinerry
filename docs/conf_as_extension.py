@@ -18,3 +18,7 @@ def init(app):
         copyright = '{} {}'.format(date.today().year, app.config.author)
         app.config.copyright = copyright
     app.config.rst_epilog = prolog.format(app.config)
+
+    # Version fixing tip from https://github.com/pypa/setuptools_scm
+    from pkg_resources import get_distribution
+    app.config.version = app.config.release = get_distribution(app.config.project).version

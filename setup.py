@@ -38,7 +38,7 @@ description = get_description()
 
 params = dict(
     name=name,
-    version='0.1',  # SKELETON: Remove if not using bumpversion (also remove bumpversion from requirements-dev.txt)
+    version='0.1',  # SKELETON: Remove if using setuptools_scm.
     use_scm_version=True,  # SKELETON: Remove if not using setuptools_scm.
     author="Allan Crooks",
     author_email="allan@increment.one",

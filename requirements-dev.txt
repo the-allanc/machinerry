@@ -1,6 +1,6 @@
 -e .[docs]
 -e .[testing]
-bumpversion
+bump2version>=0.5.6  # SKELETON: Remove if not using bumpversion.
 tox>=2.4
 flake8
 radon
