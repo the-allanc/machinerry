@@ -457,7 +457,6 @@ class TestMachine(object):
         self.machine.wait_min = 3
         self.machine.wait_run_frequency = 10
         self.machine.wait_on_error = 120
-        assert self.machine.wait_on_error_default == 5
 
         # Do nothing - should just use the default frequency gap.
         self.machine.start()
@@ -495,14 +494,6 @@ class TestMachine(object):
         self.machine.run_now()
         self.wait(1)
         self.assertRescheduleGap('10')
-
-        # Turn off frequency and make it fail again. Should use
-        # wait_on_error_default.
-        self.machine.wait_run_frequency = None
-        self.machine.fail('Tatsuki!')
-        self.machine.run_now()
-        self.wait(1)
-        self.assertRescheduleGap('5')
 
     def test_machine_retains_run_history(self):
 
