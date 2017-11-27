@@ -196,7 +196,7 @@ class BoneMachine(object):
                 if self.paused:
                     self._become_paused(True)
                     if not self.pause_until:
-                        self.machine_event_flag.wait(self.min_wait)
+                        self.machine_event_flag.wait(self.wait_min)
                         continue
 
                     # We've been asked to pause until a specific time.
@@ -331,7 +331,7 @@ class BoneMachine(object):
             self.machine_run_history.append(run)
             if self.run_history_limit:
                 self.machine_run_history = self.machine_run_history[
-                    -self.run_history_limit:]
+                    -self.run_history_limit:]  # pylint: disable=invalid-unary-operand-type
 
         return run
 
@@ -534,11 +534,11 @@ class Machine(BoneMachine):
     Generally, you will want to subclass this and override the 'execute'
     method to perform the same work on a recurring basis:
 
-    class MyMachine(Machine):
-        def execute(self):
-            foo()
-    m = MyMachine()
-    m.subscribe()
+    >>> class MyMachine(Machine):
+    ...    def execute(self):
+    ...        foo()
+    >>> m = MyMachine()
+    >>> m.subscribe()
 
     There are a lot of exposed variables and hooks available to customise
     some behaviour.
