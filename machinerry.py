@@ -821,7 +821,7 @@ class Machine(BoneMachine):
             # to halt. We trust that after the main thread has
             # finished, we will pass on the signal. We won't allow
             # any other signals to make their way through.
-            handlers.handler['SIGTERM'] = lambda: None
+            handler.handlers['SIGTERM'] = lambda: None
 
             # Just in case we're triggered more than once, we protect
             # against the possibility that we receive the signal more
