@@ -2,7 +2,8 @@ language: python
 python:
 - 2.7
 - 3.6
-before_install: ['! grep -R SKELETON | grep -v grep']
+before_install:
+- "! grep -R SKELETON | grep -v grep"
 install:
 - pip install -r requirements-dev.txt
 - pip install coveralls pytest-cov
@@ -24,7 +25,8 @@ deploy:
     tags: true
     all_branches: true
   user: amc6010
-  # supply password with `travis encrypt --add deploy.password`
   distributions: dists
+  password:
+    secure: X6+PBmYp5q/Si7hgywlGuagKyAsaxn870ngJAdZ8spvYkr7IqBDvthTiOUEjnnNgKk8Ef/Gwj3Nujy2mwULIDUorqFrEl3GgiY73UVBMHtDpJr4f9kzFnKstzWleNqSiETeJgueSxCK+Uic9ygK0Bpdzf2LByGx54rWJ+AXoZKzys2dqGOfDveOoyPcjrZruj65CcBPdfu7QF/rtQpS1PzMr2DNwrhwJ2gk7Z3SPFd5DdFSJwokRPzZJogqw/WgLTvShZ0VvZ5HDVkzM/oCt4IlyhPW+Eb/5GxD/Y8z7L+p2qJrxaLDxzJkfXaumai+btoy8TsMvdY7XnOlf0/kEfp64jROE3M30qoG9m6aWffDxa4LJwOI+z6YOcFhWDkoBcc2KzTiUDrMeIos4Vad1DozfBF7qDFnc3zr2OxVEWl5uxj1N+huG9deoBsSbHGI6rRg2gS6yyP5RRPU9U08HGKwr0OrkjvnmtFBrSG472VBGJsV+UwlKvIkWUdXxBHW2ru/jP2i51rfds3c3qB9Y6wn+XIkpzyGdFkCVtltdsDTYPdH2Ac2mwsMVrQ6o+kqJo/XABI+IeuYupQ7HJRVP96ms7SaXH3GPLJ9ZlyXN9sdJM8xe5H8LHZ/bM+PJU1tSxTQc2lUXogGS2XEX3lhcrtcMmhh+ZSN1u0asHEGnsmc=
 after_success:
 - coveralls
