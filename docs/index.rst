@@ -1,16 +1,24 @@
-.. machinerry documentation master file, created by
-   sphinx-quickstart on Mon Mar  6 10:20:17 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. include:: ../README.rst
+  :end-before: all-content-above-will-be-included-in-sphinx-docs
 
-Welcome to machinerry's documentation!
-======================================
+Project Home
+------------
+
+You can browse the source code and file issues at the project repository_.
+
+References
+----------
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
 
-   api
+   history
+   setup
+
+API
+---
+
+.. include:: api/main.rst
 
 
 Indices and tables

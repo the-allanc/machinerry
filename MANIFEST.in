@@ -1,0 +1,9 @@
+prune docs/
+prune tests/
+exclude *.yml
+exclude .*
+exclude *.ini
+exclude requirements*.txt
+exclude *.rst
+exclude MANIFEST.in
+include README.rst

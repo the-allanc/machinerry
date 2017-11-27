@@ -1,4 +1,7 @@
--e .
-pytest
-bumpversion
-CherryPy==3.8
+-e .[docs]
+-e .[testing]
+bump2version>=0.5.6
+tox>=2.4
+flake8
+radon
+pylint

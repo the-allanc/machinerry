@@ -1,0 +1,13 @@
+engines:
+  radon: 
+    enabled: true
+    config:
+      threshold: "C"
+exclude_paths:
+  - "docs/"
+  - "tests/"
+  - '*.rst'
+  - '*.txt'
+  - '*.ini'
+  - 'setup.*'
+  - 'MANIFEST.in'

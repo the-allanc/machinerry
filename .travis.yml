@@ -1,0 +1,32 @@
+language: python
+python:
+- 2.7
+- 3.6
+# Check that all template lines from the skeleton project have been removed.
+#   Do NOT remove this when customising your project.
+before_install: ['! grep -R SKELETON | grep -v grep']
+install:
+- pip install -r requirements-dev.txt
+- pip install coveralls pytest-cov
+script:
+- python setup.py checkdocs
+- py.test --cov machinerry
+- sphinx-build -W docs/ build/docs/
+- pylint --disable=W machinerry.py
+after_script:
+- flake8
+- pylint machinerry.py
+branches:
+  except:
+  - skeleton
+deploy:
+  provider: pypi
+  server: https://upload.pypi.org/legacy/
+  on:
+    tags: true
+    all_branches: true
+  user: amc6010
+  # supply password with `travis encrypt --add deploy.password`
+  distributions: dists
+after_success:
+- coveralls
