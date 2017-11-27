@@ -815,7 +815,13 @@ class Machine(BoneMachine):
 
         def delayed_stop():
             our_thread = self.machine_thread
-            self.stop()
+            self.stop() # This will clear the reference to the machine thread.
+
+            # We don't want multiple signals to cause this service
+            # to halt. We trust that after the main thread has
+            # finished, we will pass on the signal. We won't allow
+            # any other signals to make their way through.
+            handlers.handler['SIGTERM'] = lambda: None
 
             # Just in case we're triggered more than once, we protect
             # against the possibility that we receive the signal more
@@ -828,11 +834,8 @@ class Machine(BoneMachine):
                 our_thread.join()
                 cherrypy.log('Thread "%s" terminated.' % our_thread.name)
 
-                # We don't want multiple signals to cause this service
-                # to halt. We trust that after the main thread has
-                # finished, we will pass on the signal. We won't allow
-                # any other signals to make their way through.
-                old_sigterm_handler()
+            # Shut down everything else.
+            old_sigterm_handler()
 
         handler.handlers['SIGTERM'] = delayed_stop
         handler.subscribe()
