@@ -179,7 +179,8 @@ class BoneMachine(object):
                 get_ident = threading.get_ident
             except AttributeError:
                 # noinspection PyProtectedMember
-                get_ident = threading._get_ident  # Python 2
+                # This is for Python 2 compatibility.
+                get_ident = threading._get_ident  # pylint: disable=no-member
             self.machine_threadid = get_ident()
             self.machine_is_running = True
             self.machine_up_since = self.now()
