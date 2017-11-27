@@ -1,4 +1,3 @@
-.. automodule:: machinerry
+.. autoclass:: machinerry.Machine
     :members:
-    :undoc-members:
-    :show-inheritance:
+    :inherited-members:
