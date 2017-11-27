@@ -1,3 +1,4 @@
+six>=1.11
 -e .[docs]
 -e .[testing]
 bump2version>=0.5.6
