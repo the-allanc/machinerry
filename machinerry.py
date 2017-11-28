@@ -293,21 +293,13 @@ class BoneMachine(object):
         if self.run_time_next is not None:
             return
 
-        if on_error:
-            times = [
-                (self.wait_for_this_one_time, True),
-                (self.wait_on_error, True),
-                (self.wait_run_frequency, False),
-            ]
-        else:
-            times = [
-                (self.wait_for_this_one_time, True),
-                (self.wait_run_frequency, False),
-                (self.wait_min, True),
-            ]
-
-        for time, calc_from_now in times:
-            if time is not None and time > 0:
+        for time, calc_from_now, use_it in [
+            (self.wait_for_this_one_time, True, True),
+            (self.wait_on_error, True, on_error),
+            (self.wait_run_frequency, False, True),
+            (self.wait_min, True, True),
+        ]:
+            if use_it and time is not None and time > 0:
                 break
 
         if calc_from_now:

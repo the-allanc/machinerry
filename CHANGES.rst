@@ -1,3 +1,8 @@
+0.2.3
+=====
+
+* Fixed bug in scheduling logic for services which don't run on a scheduled repeated basis.
+
 0.2
 ===
 
