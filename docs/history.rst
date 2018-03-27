@@ -2,7 +2,7 @@
 
 .. _changes:
 
-History
-*******
+Changelog
+*********
 
 .. include:: ../CHANGES (links).rst

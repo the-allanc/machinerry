@@ -28,9 +28,6 @@ def get_description():
 
 
 name = get_definition('.. |name| replace:: ')
-url = get_definition('.. _repository: ')
-summary = get_definition('.. |summary| replace:: ')
-description = get_description()
 
 #
 # End extraction code.
@@ -42,10 +39,10 @@ params = dict(
     use_scm_version=True,  # SKELETON: Remove if not using setuptools_scm.
     author="Allan Crooks",
     author_email="allan@increment.one",
-    description=summary or name,
-    long_description=description,
+    description=get_definition('.. |summary| replace:: '),
+    long_description=get_description(),
     license='MIT',
-    url=url,
+    url=get_definition('.. _repository: '),
     keywords=[],
     py_modules=['SKELETON'],  # SKELETON: Remove if multiple module project.
     packages=setuptools.find_packages(exclude=['tests']),  # SKELETON: Remove if single module.
@@ -59,14 +56,14 @@ params = dict(
     extras_require={
         'testing': [
             'pytest>=2.8',
-            'pytest-sugar',
+            'pytest-sugar>=0.9.1',
+            'collective.checkdocs',
         ],
         'docs': [
             'sphinx',
             'jaraco.packaging>=3.2',
             'rst.linker>=1.9',
             'allanc-sphinx[yeen]>=0.2',
-            'collective.checkdocs',
         ],
     },
     setup_requires=[
