@@ -9,7 +9,8 @@ install:
 - pip install coveralls pytest-cov
 script:
 - python setup.py checkdocs
-- tox
+- py.test --cov machinerry tests/
+- py.test README.rst docs/*.rst docs/api/*.rst
 - sphinx-build -W docs/ build/docs/
 - pylint --disable=W machinerry.py
 after_script:
