@@ -1,3 +1,10 @@
+0.2.4
+=====
+
+* When we receive a SystemExit or KeyboardInterrupt, set the machine to stopping before reraising
+  the exception - this will prevent errors being reported where the machine is still attempting
+  to execute even though the service is shutting down.
+
 0.2.3
 =====
 

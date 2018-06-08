@@ -353,6 +353,7 @@ class BoneMachine(object):
                 paused_by_execute = run.pop('_paused_by_execute')
         except (KeyboardInterrupt, SystemExit):
             cherrypy.log("<Ctrl-C> hit: shutting down app engine", "ENGINE")
+            self.stop()
             cherrypy.server.stop()
             cherrypy.engine.stop()
             raise
