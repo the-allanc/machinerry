@@ -1,4 +1,4 @@
-0.2.4
+0.2.5
 =====
 
 * When we receive a SystemExit or KeyboardInterrupt, set the machine to stopping before reraising
