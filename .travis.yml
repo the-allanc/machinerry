@@ -7,20 +7,11 @@ python:
 before_install: ['! grep -R SKELETON | grep -v grep']
 install:
 - pip install -r requirements-dev.txt
-- pip install coveralls pytest-cov
+- pip install coveralls tox-travis
 script:
-- python setup.py checkdocs
-- py.test --cov SKELETON test_SKELETON.py  # SKELETON: For single module only.
-- py.test --cov SKELETON/ tests/           # SKELETON: For multi-module only.
-- py.test README.rst docs/*.rst docs/api/*.rst
-- sphinx-build -W docs/ build/docs/
-- pylint --disable=W SKELETON.py  # SKELETON: For single module only.
-- pylint --disable=W SKELETON/    # SKELETON: For multi-module only.
+- tox -e verify
 after_script:
-- flake8
-- pycodestyle
-- pylint SKELETON.py  # SKELETON: For single module only.
-- pylint SKELETON/    # SKELETON: For multi-module only.
+- tox -e lint
 branches:
   except:
   - skeleton

@@ -65,6 +65,11 @@ params = dict(
             'rst.linker>=1.9',
             'allanc-sphinx[yeen]>=0.2',
         ],
+        'lint': [
+            'flake8',
+            'radon',
+            'pylint',
+        ],
     },
     setup_requires=[
         'setuptools_scm>=1.15.0',  # SKELETON: Remove if not using setuptools_scm.
