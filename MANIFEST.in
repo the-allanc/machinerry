@@ -6,4 +6,5 @@ exclude *.ini
 exclude requirements*.txt
 exclude *.rst
 exclude MANIFEST.in
+exclude test_*.py
 include README.rst

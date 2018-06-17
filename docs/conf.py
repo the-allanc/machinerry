@@ -34,7 +34,7 @@ link_files = {
         ),
         replace=[
             dict(
-                pattern=r'(Issue )?#(?P<issue>\d+)',
+                pattern=r'(Issue #|\B#)(?P<issue>\d+)',
                 url='{package_url}/issues/{issue}',
             ),
             dict(
@@ -63,9 +63,11 @@ if html_theme == 'yeen' and repo_url.startswith('https://github.com'):
     html_theme_options = {'github_url': repo_url}
 
 with io.open('index.rst', encoding='utf-8') as index_contents:
-    # If we're embedding an API file in the main document (presumably just one of them), then
-    # exclude individual generation of the API document file, otherwise Sphinx will complain
-    # about duplicate object description.
+    # If we're embedding an API file in the main document (presumably
+    # just one of them), then exclude individual generation of the API
+    # document file, otherwise Sphinx will complain about duplicate
+    # object description.
     if '.. include:: api/' in index_contents.read():
         exclude_patterns = ['api/*.rst']
     del index_contents
+

@@ -18,6 +18,7 @@ script:
 - pylint --disable=W SKELETON/    # SKELETON: For multi-module only.
 after_script:
 - flake8
+- pycodestyle
 - pylint SKELETON.py  # SKELETON: For single module only.
 - pylint SKELETON/    # SKELETON: For multi-module only.
 branches:
@@ -34,3 +35,9 @@ deploy:
   distributions: dists
 after_success:
 - coveralls
+cache: pip
+before_script:
+  # Disable IPv6. Ref travis-ci/travis-ci#8361
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+      sudo sh -c 'echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6';
+    fi
