@@ -49,25 +49,31 @@ link_files = {
     ),
 }
 
+#
+# The below code checks if the files exist where we expect - this is to
+# allow pytest to silently import this module.
+#
+
 # Extract the repository URL from the README.
-with io.open('../README.rst', encoding='utf-8') as readme:
-    repo_prefix = '.. _repository: '
-    repo_url = None
-    for line in readme.readlines():
-        if line.startswith(repo_prefix):
-            repo_url = line[len(repo_prefix):].strip()
-            break
-    del readme, repo_prefix, line
+if os.path.isfile('../README.rst'):
+    with io.open('../README.rst', encoding='utf-8') as readme:
+        repo_prefix = '.. _repository: '
+        repo_url = None
+        for line in readme.readlines():
+            if line.startswith(repo_prefix):
+                repo_url = line[len(repo_prefix):].strip()
+                break
+        del readme, repo_prefix, line
 
-if html_theme == 'yeen' and repo_url.startswith('https://github.com'):
-    html_theme_options = {'github_url': repo_url}
+    if html_theme == 'yeen' and repo_url.startswith('https://github.com'):
+        html_theme_options = {'github_url': repo_url}
 
-with io.open('index.rst', encoding='utf-8') as index_contents:
-    # If we're embedding an API file in the main document (presumably
-    # just one of them), then exclude individual generation of the API
-    # document file, otherwise Sphinx will complain about duplicate
-    # object description.
-    if '.. include:: api/' in index_contents.read():
-        exclude_patterns = ['api/*.rst']
-    del index_contents
-
+if os.path.isfile('index.rst'):
+    with io.open('index.rst', encoding='utf-8') as index_contents:
+        # If we're embedding an API file in the main document (presumably
+        # just one of them), then exclude individual generation of the API
+        # document file, otherwise Sphinx will complain about duplicate
+        # object description.
+        if '.. include:: api/' in index_contents.read():
+            exclude_patterns = ['api/*.rst']
+        del index_contents

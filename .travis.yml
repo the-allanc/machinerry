@@ -6,16 +6,11 @@ before_install:
 - "! grep -R SKELETON | grep -v grep"
 install:
 - pip install -r requirements-dev.txt
-- pip install coveralls pytest-cov
+- pip install coveralls tox-travis
 script:
-- python setup.py checkdocs
-- py.test --cov machinerry tests/
-- sphinx-build -W docs/ build/docs/
-- pylint --disable=W machinerry.py
+- tox -e verify
 after_script:
-- flake8
-- pycodestyle
-- pylint machinerry.py
+- tox -e lint
 branches:
   except:
   - skeleton
