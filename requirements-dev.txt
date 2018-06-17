@@ -7,5 +7,5 @@ six>=1.11
 git+git://github.com/the-allanc/pycodestyle@2a89f8643790efee043ea01b310ff519c888ff9a
 -e .[lint]
 
-bump2version>=0.5.6  # SKELETON: Remove if not using bumpversion.
+bump2version>=0.5.6
 tox>=2.4
