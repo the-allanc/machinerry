@@ -14,6 +14,7 @@ script:
 - pylint --disable=W machinerry.py
 after_script:
 - flake8
+- pycodestyle
 - pylint machinerry.py
 branches:
   except:
@@ -30,3 +31,9 @@ deploy:
     secure: iusKgTOfopNlw0LsipPk/NyCx1hnNDpZdk80XwupAIJHa3MHPoJyrgJFcStSJGUpxsZL80PE9HIvz2HrF1Y8mVicb10Qfi1Y9pMPHmwApZRG6gYQvSBwBtWsqtoh/fv1ZP033hrfrTHZN5m3sFwFkKmw64OytHdoOfjZ6x2PEUGGc7ACWK80tXaRLnJK5rXraAOYmJ0bLT8rvaUqw2RNcyvSfGa1Qw+01Zyk+cdTOLRPS5/n7t53BaIgDOauIgOlqGjodsvNF/MZk3m4uyzQh0p0OWHfxJHRgOMAyg5+hbOf8u8wWuVN47onGx5xoGtNlj0cZfa+xWT2dSbC5hV2KDSVfwUueIO5Jd4z7+s+91hqNb+wInt3++E7MNJ5UIbxOtVheuj/KMRJ/C9FXvEFLsnfDJoH7dM/WRsU02xoacDB0aftztqmeHMOsecWgMQhAFFRz9umQqlj0omwbgNNHmQrhHojDxa4zJQC6BF01CZb3U7quZM5a7qo1iAgvo7h4TfeTWaDNS6ByL6a9jnFCa6f8HMhTAZx3ADeOTqAm4TdTPWIPDPYtj6kGBA3sCwxMGxCwxar48srOEgLT0701U774icJZZSa+aFyTx59pjMkDltZcWGXlPgN8QMwYa98g0PREbY+d3cY8d6zDfZT+p/ot+BTVU57bwQw8gSiBC4=
 after_success:
 - coveralls
+cache: pip
+before_script:
+  # Disable IPv6. Ref travis-ci/travis-ci#8361
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+      sudo sh -c 'echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6';
+    fi
