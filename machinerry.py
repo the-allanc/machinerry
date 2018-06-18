@@ -531,7 +531,7 @@ class Machine(BoneMachine):
     >>> class MyMachine(Machine):
     ...    def execute(self):
     ...        foo()
-    >>> m = MyMachine()
+    >>> m = MyMachine('test')
     >>> m.subscribe()
 
     There are a lot of exposed variables and hooks available to customise
