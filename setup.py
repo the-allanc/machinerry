@@ -54,6 +54,7 @@ params = dict(
             'pytest>=3.5',
             'pytest-sugar>=0.9.1',
             'collective.checkdocs',
+            'pytest-cov',
         ],
         'docs': [
             'sphinx',
