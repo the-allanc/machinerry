@@ -1,29 +1,42 @@
 language: python
 python:
 - 2.7
-- 3.6
-before_install:
-- "! grep -R SKELETON | grep -v grep"
+- &latest_py3 3.6
+# Check that all template lines from the skeleton project have been removed.
+#   Do NOT remove this when customising your project.
+before_install: ['! grep -R SKELETON | grep -v grep']
 install:
 - pip install -r requirements-dev.txt
-- pip install coveralls tox-travis
+- pip install coveralls tox tox-travis
 script:
-- tox -e verify
-after_script:
-- tox -e lint
+- tox
 branches:
   except:
   - skeleton
-deploy:
-  provider: pypi
-  server: https://upload.pypi.org/legacy/
-  on:
-    tags: true
-    all_branches: true
-  user: amc6010
-  distributions: dists
-  password:
-    secure: iusKgTOfopNlw0LsipPk/NyCx1hnNDpZdk80XwupAIJHa3MHPoJyrgJFcStSJGUpxsZL80PE9HIvz2HrF1Y8mVicb10Qfi1Y9pMPHmwApZRG6gYQvSBwBtWsqtoh/fv1ZP033hrfrTHZN5m3sFwFkKmw64OytHdoOfjZ6x2PEUGGc7ACWK80tXaRLnJK5rXraAOYmJ0bLT8rvaUqw2RNcyvSfGa1Qw+01Zyk+cdTOLRPS5/n7t53BaIgDOauIgOlqGjodsvNF/MZk3m4uyzQh0p0OWHfxJHRgOMAyg5+hbOf8u8wWuVN47onGx5xoGtNlj0cZfa+xWT2dSbC5hV2KDSVfwUueIO5Jd4z7+s+91hqNb+wInt3++E7MNJ5UIbxOtVheuj/KMRJ/C9FXvEFLsnfDJoH7dM/WRsU02xoacDB0aftztqmeHMOsecWgMQhAFFRz9umQqlj0omwbgNNHmQrhHojDxa4zJQC6BF01CZb3U7quZM5a7qo1iAgvo7h4TfeTWaDNS6ByL6a9jnFCa6f8HMhTAZx3ADeOTqAm4TdTPWIPDPYtj6kGBA3sCwxMGxCwxar48srOEgLT0701U774icJZZSa+aFyTx59pjMkDltZcWGXlPgN8QMwYa98g0PREbY+d3cY8d6zDfZT+p/ot+BTVU57bwQw8gSiBC4=
+jobs:
+  include:
+  - stage: build-docs
+    python: *latest_py3
+    install: pip install tox
+    script: tox -e docs
+  - stage: deploy
+    if: tag IS present
+    python: *latest_py3
+    provider: pypi
+    server: https://upload.pypi.org/legacy/
+    on:
+      tags: true
+      all_branches: true
+    user: amc6010
+    password:
+      secure: iusKgTOfopNlw0LsipPk/NyCx1hnNDpZdk80XwupAIJHa3MHPoJyrgJFcStSJGUpxsZL80PE9HIvz2HrF1Y8mVicb10Qfi1Y9pMPHmwApZRG6gYQvSBwBtWsqtoh/fv1ZP033hrfrTHZN5m3sFwFkKmw64OytHdoOfjZ6x2PEUGGc7ACWK80tXaRLnJK5rXraAOYmJ0bLT8rvaUqw2RNcyvSfGa1Qw+01Zyk+cdTOLRPS5/n7t53BaIgDOauIgOlqGjodsvNF/MZk3m4uyzQh0p0OWHfxJHRgOMAyg5+hbOf8u8wWuVN47onGx5xoGtNlj0cZfa+xWT2dSbC5hV2KDSVfwUueIO5Jd4z7+s+91hqNb+wInt3++E7MNJ5UIbxOtVheuj/KMRJ/C9FXvEFLsnfDJoH7dM/WRsU02xoacDB0aftztqmeHMOsecWgMQhAFFRz9umQqlj0omwbgNNHmQrhHojDxa4zJQC6BF01CZb3U7quZM5a7qo1iAgvo7h4TfeTWaDNS6ByL6a9jnFCa6f8HMhTAZx3ADeOTqAm4TdTPWIPDPYtj6kGBA3sCwxMGxCwxar48srOEgLT0701U774icJZZSa+aFyTx59pjMkDltZcWGXlPgN8QMwYa98g0PREbY+d3cY8d6zDfZT+p/ot+BTVU57bwQw8gSiBC4=
+    # supply password with `travis encrypt --add deploy.password`
+    distributions: dists
+  - stage: lint-check
+    python: *latest_py3
+    install: pip install tox
+    script: skip
+    after_script: tox -e lint
 after_success:
 - coveralls
 cache: pip
