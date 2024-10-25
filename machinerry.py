@@ -159,7 +159,7 @@ class BoneMachine(object):
         """Start processing in a new Thread."""
         if self.machine_thread is None:
             self.machine_thread = threading.Thread(target=self.run)
-            self.machine_thread.setName("%s thread" % self.machine_name)
+            self.machine_thread.name = ("%s thread" % self.machine_name)
             self.machine_thread.start()
 
     def stop(self):
